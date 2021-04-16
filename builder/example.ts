@@ -70,12 +70,12 @@ class ManualBuilder implements Builder {
         this.manual.tripComputer = true
     }
 
-    getResult(): String {
+    getResult(): string {
         return `Manual for the car which has:
         ${this.manual.seats} seats,
-        ${this.manual.gps} GPS,
-        ${this.manual.engine} engine,
-        ${this.manual.tripComputer} trip computer
+        GPS: ${this.manual.gps},
+        ${this.manual.engine} horse power engine,
+        trip computer: ${!!this.manual.tripComputer}
         `
     }
 }
@@ -88,19 +88,30 @@ class Director {
         builder.setTripComputer()
         builder.setGPS()
     }
+
+    constructSUVCar(builder: Builder) {
+        builder.reset()
+        builder.setSeats(8)
+        builder.setEngine(1200)
+        builder.setGPS()
+    }
 }
 
 class Application {
     makeCar() {
         const director = new Director()
-
         const carBuilder = new CarBuilder()
         const manualBuilder = new ManualBuilder()
+
         director.constructSportCar(carBuilder)
         director.constructSportCar(manualBuilder)
-
         const car = carBuilder.getResult()
         const manual = manualBuilder.getResult()
+
+        director.constructSUVCar(carBuilder)
+        director.constructSUVCar(manualBuilder)
+        const suvCar = carBuilder.getResult()
+        const suvManual = manualBuilder.getResult()
     }
 }
 
